@@ -1,0 +1,2 @@
+# FXr
+Currency Exchange notification
