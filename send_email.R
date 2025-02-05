@@ -108,7 +108,7 @@ if (EUR_rate_today >= 1.204 |
   # Send email
   my_email_object |> smtp_send(
     from = Sys.getenv("MY_GMAIL_ACCOUNT"),
-    to = Sys.getenv("MY_GMAIL_ACCOUNT"),
+    to = Sys.getenv(RECIPIENTS),
     subject = paste0("The trade is on! ", EUR_rate_today," EUR 💱"),
     credentials = gmail_creds) 
 } else {
