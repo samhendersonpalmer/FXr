@@ -104,5 +104,5 @@ my_email_object <- compose_email(
   my_email_object |> smtp_send(
     from = Sys.getenv("MY_GMAIL_ACCOUNT"),
     to = Sys.getenv(RECIPIENTS),
-    subject = paste0("The trade is on! ", EUR_rate_today," EUR 💱"),
+    subject = paste0("FX trade is on! ", EUR_rate_today," EUR 💱"),
     credentials = gmail_creds)
