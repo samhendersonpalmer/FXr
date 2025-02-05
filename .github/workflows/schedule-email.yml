@@ -22,7 +22,7 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v2
       - name: Install dependencies
         run: |
-          install.packages(c("blastula", "tidyverse", "httr2", "gt"), type = "win.binary")
+          install.packages(c("blastula", "tidyverse", "httr2", "gt", "stringr"), type = "win.binary")
         shell: Rscript {0}
       - name: Script
         run: Rscript send_email.R
