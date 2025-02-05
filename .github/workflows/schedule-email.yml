@@ -1,0 +1,41 @@
+name: Send email using blastula
+on: 
+  # Action will run every time there is a push to main
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+  # Scheduled running every day
+  schedule:
+     # This just means every day at 9am 0 minutes
+    - cron: '0 9 * * *'
+jobs:
+  render:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Set up pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+      - name: Install dependencies
+        run: |
+          install.packages(c("blastula", "tidyverse", "httr2", "gt"), type = "win.binary")
+        shell: Rscript {0}
+      - name: Script
+        run: Rscript send_email.R
+        env: # as an environment variable (this is one we'd do)
+          MY_GMAIL_ACCOUNT: ${{ secrets.MY_GMAIL_ACCOUNT }}
+          APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+      - name: Commit files
+        run: |
+          git config --local user.name github-actions
+          git config --local user.email "actions@github.com"
+          git add output/*
+          git commit -am "commit on $(date)"
+          git push origin main
+        env:
+          REPO_KEY: ${{secrets.GITHUB_TOKEN}}
+          username: github-actions
