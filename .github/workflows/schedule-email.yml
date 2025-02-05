@@ -9,8 +9,8 @@ on:
   
   # Scheduled running every day
   schedule:
-     # This just means every day at 9am 0 minutes
-    - cron: '0 9 * * *'
+     # This just means every 30 mins between 8am and 6pm
+    - cron: '*/30 08-18 * * *'
 jobs:
   render:
     runs-on: windows-latest
@@ -30,6 +30,7 @@ jobs:
           MY_GMAIL_ACCOUNT: ${{ secrets.MY_GMAIL_ACCOUNT }}
           APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
           RECIPIENTS: ${{ secrets.RECIPIENTS }}
+          FX_API_KEY: ${{ secrets.FX_API_KEY }}
       - name: Commit files
         run: |
           git config --local user.name github-actions
