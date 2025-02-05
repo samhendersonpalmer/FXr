@@ -61,7 +61,7 @@ EUR_rate_prev3 <- function(){
     arrange(desc(date)) |> 
     mutate(change_24hr = (rate - lead(rate))/lead(rate)*100)
   
-  return(rate_value)
+  return(rate_values)
   
 }
 
