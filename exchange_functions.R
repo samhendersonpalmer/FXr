@@ -59,7 +59,7 @@ EUR_rate_prev3 <- function(){
   rate_values <- stack(results_fx$rates) |> 
     select(date = ind, rate = values) |> 
     arrange(desc(date)) |> 
-    mutate(change_24hr = (rate - lead(rate))/lead(rate)*100)
+    mutate(change_24hr = (rate - lead(rate))/lead(rate))
   
   return(rate_values)
   
