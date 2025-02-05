@@ -29,6 +29,7 @@ jobs:
         env: # as an environment variable (this is one we'd do)
           MY_GMAIL_ACCOUNT: ${{ secrets.MY_GMAIL_ACCOUNT }}
           APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+          RECIPIENTS: ${{ secrets.RECIPIENTS }}
       - name: Commit files
         run: |
           git config --local user.name github-actions

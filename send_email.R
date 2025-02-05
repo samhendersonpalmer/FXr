@@ -101,16 +101,8 @@ my_email_object <- compose_email(
 
 
 # Send the email ----------------------------------------------------------
-# Make the email conditional on EUR rate >= 1.204 today or by >= 1% over past 3 days
-if (EUR_rate_today >= 1.204 | 
-    (EUR_rate_prev3["change_24hr"][[1]][1] >= 0.01 &
-     EUR_rate_prev3["change_24hr"][[1]][2] >= 0.01)) {
-  # Send email
   my_email_object |> smtp_send(
     from = Sys.getenv("MY_GMAIL_ACCOUNT"),
-    to = Sys.getenv("MY_GMAIL_ACCOUNT"),
-    subject = paste0("The trade is on! ", EUR_rate_today," EUR 💱"),
-    credentials = gmail_creds) 
-} else {
-  NULL
-}
+    to = Sys.getenv(RECIPIENTS),
+    subject = paste0("FX trade is on! ", EUR_rate_today," EUR 💱"),
+    credentials = gmail_creds)
