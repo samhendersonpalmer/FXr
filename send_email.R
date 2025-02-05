@@ -101,8 +101,11 @@ my_email_object <- compose_email(
 
 
 # Send the email ----------------------------------------------------------
+# Will need stringr package for splitting multiple recipients into vector
+library(stringr)
+
   my_email_object |> smtp_send(
     from = Sys.getenv("MY_GMAIL_ACCOUNT"),
-    to = Sys.getenv(RECIPIENTS),
+    to = str_split(Sys.getenv("RECIPIENTS"), ", ")[[1]],
     subject = paste0("FX trade is on! ", EUR_rate_today," EUR 💱"),
     credentials = gmail_creds)
