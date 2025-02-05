@@ -8,11 +8,14 @@ library(tidyverse)
 # Retrieve EUR rate today ------------------------------------------------------------
 EUR_rate_today <- function(){
   
+  # Define access tokens
+  access_token_fx <- Sys.getenv("FX_API_KEY")
+  
   # Define API base URL
-  base_url_fx <- "https://api.frankfurter.dev/v1/"
+  base_url_fx <- "https://marketdata.tradermade.com/api/v1/"
   
   # Define API endpoints
-  endpoint_fx <- "latest?from=GBP&to=EUR"
+  endpoint_fx <- paste0("live?api_key=", access_token_fx, "&currency=GBPEUR")
   
   # Define request
   req_fx <- request(base_url_fx) %>% 
@@ -27,9 +30,10 @@ EUR_rate_today <- function(){
     resp_body_json()
   
   # Extract rate
-  rate_value <- results_fx$rates$EUR
+  rate_value <- results_fx$quotes[[1]]$mid
+  timestamp <- results_fx$requested_time
   
-  return(rate_value)
+  list("EUR" = rate_value, "time" = timestamp)
   
 }
 

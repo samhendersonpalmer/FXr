@@ -91,7 +91,7 @@ my_email_object <- compose_email(
     glue::glue(
       "Hey trader,
       
-      Here is your latest GBP to EUR update: {EUR_rate_today}
+      Here is your latest GBP to EUR update: {round(EUR_rate_today$EUR, 4)} on {EUR_rate_today$time}
       
       {tbl |>  as_raw_html()}"
     )
@@ -104,8 +104,16 @@ my_email_object <- compose_email(
 # Will need stringr package for splitting multiple recipients into vector
 library(stringr)
 
+# Make the email conditional on EUR rate >= 1.204 today or by >= 1% over past 3 days
+if (EUR_rate_today$EUR >= 1.204 | 
+    (EUR_rate_prev3["change_24hr"][[1]][1] >= 0.01 &
+     EUR_rate_prev3["change_24hr"][[1]][2] >= 0.01)) {
+  # Send email
   my_email_object |> smtp_send(
     from = Sys.getenv("MY_GMAIL_ACCOUNT"),
     to = str_split(Sys.getenv("RECIPIENTS"), ", ")[[1]],
-    subject = paste0("FX trade is on! ", EUR_rate_today," EUR 💱"),
+    subject = paste0("FX trade is on! ", round(EUR_rate_today$EUR, 4)," EUR 💱"),
     credentials = gmail_creds)
+} else {
+  NULL
+}
