@@ -105,9 +105,7 @@ my_email_object <- compose_email(
 library(stringr)
 
 # Make the email conditional on EUR rate >= 1.204 today or by >= 1% over past 3 days
-if (EUR_rate_today$EUR >= 1.204 | 
-    (EUR_rate_prev3["change_24hr"][[1]][1] >= 0.01 &
-     EUR_rate_prev3["change_24hr"][[1]][2] >= 0.01)) {
+if (EUR_rate_today$EUR >= 1.204) {
   # Send email
   my_email_object |> smtp_send(
     from = Sys.getenv("MY_GMAIL_ACCOUNT"),
